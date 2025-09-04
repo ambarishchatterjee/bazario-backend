@@ -1,0 +1,105 @@
+<section>
+  <h2 class="text-2xl font-bold mb-6">Sales Reports</h2>
+
+  
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <!-- Total Sales Card -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h3 class="text-lg font-semibold">Total Sales</h3>
+    <p class="text-2xl font-bold text-green-600 mt-2">₹<%= totalSales %></p>
+  </div>
+
+  <!-- Monthly Sales Chart -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h3 class="text-lg font-semibold mb-4">Monthly Sales</h3>
+    <canvas id="monthlySalesChart"></canvas>
+  </div>
+</section>
+
+<section class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <!-- Top Vendors Chart -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h3 class="text-lg font-semibold mb-4">Top Vendors</h3>
+    <canvas id="topVendorsChart"></canvas>
+  </div>
+
+  <!-- Top Products Chart -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h3 class="text-lg font-semibold mb-4">Top Products</h3>
+    <canvas id="topProductsChart"></canvas>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Monthly Sales
+  const monthlySalesLabels = <%- JSON.stringify(monthlySales.map(ms => `${ms._id.month}/${ms._id.year}`)) %>;
+  const monthlySalesData = <%- JSON.stringify(monthlySales.map(ms => ms.total)) %>;
+
+  new Chart(document.getElementById('monthlySalesChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: monthlySalesLabels,
+      datasets: [{
+        label: 'Sales (₹)',
+        data: monthlySalesData,
+        backgroundColor: 'rgba(34,197,94,0.6)',
+        borderColor: 'rgba(34,197,94,1)',
+        borderWidth: 1,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+
+  // Top Vendors
+  const topVendorsLabels = <%- JSON.stringify(topVendors.map(v => v.shopName || "Unnamed Vendor")) %>;
+  const topVendorsData = <%- JSON.stringify(topVendors.map(v => v.totalSales)) %>;
+
+  new Chart(document.getElementById('topVendorsChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: topVendorsLabels,
+      datasets: [{
+        label: 'Sales (₹)',
+        data: topVendorsData,
+        backgroundColor: 'rgba(59,130,246,0.6)', // Tailwind blue-500
+        borderColor: 'rgba(59,130,246,1)',
+        borderWidth: 1,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+
+  // Top Products
+  const topProductsLabels = <%- JSON.stringify(topProducts.map(p => p.productName || "Unnamed Product")) %>;
+  const topProductsData = <%- JSON.stringify(topProducts.map(p => p.totalSales)) %>;
+
+  new Chart(document.getElementById('topProductsChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: topProductsLabels,
+      datasets: [{
+        label: 'Sales (₹)',
+        data: topProductsData,
+        backgroundColor: 'rgba(234,179,8,0.6)', // Tailwind yellow-500
+        borderColor: 'rgba(234,179,8,1)',
+        borderWidth: 1,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+</script>

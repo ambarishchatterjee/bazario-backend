@@ -1,0 +1,57 @@
+<section>
+  <h2 class="text-2xl font-bold mb-6">Admin Dashboard</h2>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-xl shadow">
+      <h3 class="text-sm text-gray-500">Total Users</h3>
+      <p class="text-2xl font-bold"><%= stats.totalUsers %></p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+      <h3 class="text-sm text-gray-500">Vendors (Approved)</h3>
+      <p class="text-2xl font-bold"><%= stats.totalVendors %></p>
+      <p class="text-xs text-yellow-600"><%= stats.pendingVendors %> pending</p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+      <h3 class="text-sm text-gray-500">Products</h3>
+      <p class="text-2xl font-bold"><%= stats.totalProducts %></p>
+      <p class="text-xs text-yellow-600"><%= stats.pendingProducts %> pending</p>
+    </div>
+  </div>
+
+  <!-- Recent Orders -->
+  <div class="bg-white rounded-xl shadow mb-8">
+    <h3 class="text-lg font-semibold px-6 py-4 border-b">Recent Orders</h3>
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100 text-gray-600 uppercase">
+        <tr>
+          <th class="px-6 py-3 text-left">Buyer</th>
+          <th class="px-6 py-3 text-left">Amount</th>
+          <th class="px-6 py-3 text-left">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% recentOrders.forEach(order => { %>
+          <tr class="border-b hover:bg-gray-50">
+            <td class="px-6 py-3"><%= order.buyer?.name %></td>
+            <td class="px-6 py-3">₹<%= order.totalAmount %></td>
+            <td class="px-6 py-3 capitalize"><%= order.status %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pending Products -->
+  <div class="bg-white rounded-xl shadow">
+    <h3 class="text-lg font-semibold px-6 py-4 border-b">Pending Product Approvals</h3>
+    <ul class="divide-y">
+      <% recentProducts.forEach(product => { %>
+        <li class="px-6 py-3 flex justify-between">
+          <span><%= product.name %> (₹<%= product.price %>)</span>
+          <a href="/admin/products/<%= product._id %>/approve" class="text-green-600 hover:underline">Approve</a>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+</section>

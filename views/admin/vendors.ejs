@@ -1,0 +1,67 @@
+<section>
+  <h2 class="text-2xl font-bold mb-6">Vendors</h2>
+
+  <!-- Flash Messages -->
+  <% if (success && success.length > 0) { %>
+    <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">
+      <%= success %>
+    </div>
+  <% } %>
+  <% if (error && error.length > 0) { %>
+    <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <div class="overflow-x-auto bg-white rounded-xl shadow">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+        <tr>
+          <th class="px-6 py-3 text-left">Name</th>
+          <th class="px-6 py-3 text-left">Store</th>
+          <th class="px-6 py-3 text-left">Status</th>
+          <th class="px-6 py-3 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (vendors.length === 0) { %>
+          <tr>
+            <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+              No vendors found.
+            </td>
+          </tr>
+        <% } else { %>
+          <% vendors.forEach(vendor => { %>
+            <tr class="border-b hover:bg-gray-50">
+              <td class="px-6 py-3 font-medium text-gray-900"><%= vendor.user.name %></td>
+              <td class="px-6 py-3"><%= vendor.shopName %></td>
+              <td class="px-6 py-3">
+                <% if (vendor.approved) { %>
+                  <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
+                    Approved
+                  </span>
+                <% } else { %>
+                  <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full">
+                    Pending
+                  </span>
+                <% } %>
+              </td>
+              <td class="px-6 py-3 space-x-2">
+                <% if (!vendor.approved) { %>
+                  <a href="/admin/vendors/<%= vendor._id %>/approve"
+                     class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">
+                    Approve
+                  </a>
+                <% } %>
+                <a href="/admin/vendors/<%= vendor._id %>/reject"
+                   class="bg-red-600 text-white px-3 py-1 rounded text-xs hover:bg-red-700">
+                  Reject
+                </a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</section>

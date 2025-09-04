@@ -1,0 +1,75 @@
+<section>
+  <h2 class="text-2xl font-bold mb-6">Users</h2>
+
+  <!-- Flash Messages -->
+  <% if (success && success.length > 0) { %>
+    <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">
+      <%= success %>
+    </div>
+  <% } %>
+  <% if (error && error.length > 0) { %>
+    <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <div class="overflow-x-auto bg-white rounded-xl shadow">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+        <tr>
+          <th class="px-6 py-3 text-left">Name</th>
+          <th class="px-6 py-3 text-left">Email</th>
+          <th class="px-6 py-3 text-left">Role</th>
+          <th class="px-6 py-3 text-left">Status</th>
+          <th class="px-6 py-3 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (users.length === 0) { %>
+          <tr>
+            <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+              No users found.
+            </td>
+          </tr>
+        <% } else { %>
+          <% users.forEach(user => { %>
+            <tr class="border-b hover:bg-gray-50">
+              <td class="px-6 py-3 font-medium text-gray-900"><%= user.name %></td>
+              <td class="px-6 py-3"><%= user.email %></td>
+              <td class="px-6 py-3 capitalize"><%= user.role %></td>
+              <td class="px-6 py-3">
+                <% if (user.isBanned) { %>
+                  <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">
+                    Banned
+                  </span>
+                <% } else { %>
+                  <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
+                    Active
+                  </span>
+                <% } %>
+              </td>
+              <td class="px-6 py-3 space-x-2">
+                <a href="/admin/users/<%= user._id %>/edit"
+                   class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700">
+                  Edit
+                </a>
+
+                <% if (user.isBanned) { %>
+                  <a href="/admin/users/<%= user._id %>/unban"
+                     class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">
+                    Unban
+                  </a>
+                <% } else { %>
+                  <a href="/admin/users/<%= user._id %>/ban"
+                     class="bg-red-600 text-white px-3 py-1 rounded text-xs hover:bg-red-700">
+                    Ban
+                  </a>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</section>

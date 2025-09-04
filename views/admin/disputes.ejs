@@ -1,0 +1,22 @@
+<%- include('./partials/head', { title: 'Disputes' }) %>
+<div class="flex">
+  <%- include('./partials/sidebar') %>
+  <div class="flex-1">
+    <%- include('./partials/navbar', { title: 'Handle Disputes' }) %>
+    <div class="p-6">
+      <ul class="space-y-4">
+        <% disputes.forEach(dispute => { %>
+          <li class="bg-white p-4 shadow rounded">
+            <p><strong><%= dispute.buyer %></strong> vs <strong><%= dispute.vendor %></strong></p>
+            <p class="text-gray-600"><%= dispute.issue %></p>
+            <div class="mt-2 flex gap-2">
+              <a href="/admin/disputes/resolve/<%= dispute.id %>" class="px-3 py-1 bg-green-500 text-white rounded">Resolve</a>
+              <a href="/admin/disputes/escalate/<%= dispute.id %>" class="px-3 py-1 bg-yellow-500 text-white rounded">Escalate</a>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</div>
+</body></html>
