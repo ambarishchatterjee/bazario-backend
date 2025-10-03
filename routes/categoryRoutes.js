@@ -105,12 +105,12 @@
 const express = require("express");
 const { createCategory, getCategories, getProductsByCategory } = require("../controllers/categoryController");
 const { protect } = require("../middlewares/authMiddleware");
-const { isAdmin } = require("../middlewares/roleMiddleware");
+const { isAdmin, isVendor } = require("../middlewares/roleMiddleware");
 
 const router = express.Router();
 
 // Admin
-router.post("/", protect, isAdmin, createCategory);
+router.post("/", protect, isVendor, createCategory);
 
 // Public
 router.get("/", getCategories);
