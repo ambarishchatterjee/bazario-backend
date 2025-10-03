@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-  "dev": "nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "author": "Ambarish",
   "license": "ISC",
@@ -38,7 +38,8 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "tailwindcss": "^4.1.12",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

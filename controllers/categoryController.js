@@ -1,5 +1,6 @@
 const Category = require("../models/Category");
 const Joi = require("joi");
+const Product = require("../models/Product");
 
 const categorySchema = Joi.object({
   name: Joi.string().required(),
@@ -29,6 +30,30 @@ exports.getCategories = async (req, res) => {
   try {
     const categories = await Category.find();
     res.json(categories);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// =============================
+// Get products by category slug
+// =============================
+exports.getProductsByCategory = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    // find category by slug
+    const category = await Category.findOne({ slug });
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    // find products belonging to this category
+    const products = await Product.find({ category: category._id })
+      .populate("vendor", "name email")   // optional populate
+      .populate("category", "name slug"); // populate category info
+
+    res.json({ category, products });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
